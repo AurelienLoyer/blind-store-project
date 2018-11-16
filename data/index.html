@@ -1,0 +1,273 @@
+<html>
+
+<head>
+    <title>Blind Project</title>
+
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+
+    <style lang="css">
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            max-height: 100%;
+            font-family: Roboto;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        html {
+            background: linear-gradient(140deg, #305E8E 50%, #BE6990);
+        }
+
+        .infos {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 50px;
+            font-size: 30px;
+        }
+
+        #contenair {
+            max-width: 250px;
+            width: 90%;
+            height: 300px;
+            margin: 60px auto 40px;
+            position: relative;
+        }
+
+        .blind {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            height: 0px;
+            position: absolute;
+            margin-top: -6px;
+            border-top: solid 2px black;
+        }
+
+        .controller {
+            width: 50px;
+            height: 50px;
+            background: white;
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            margin-left: -25px;
+            border-radius: 100%;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            cursor: -webkit-grab;
+            flex-direction: column;
+            color: #ec2f2f;
+            font-size: 20px;
+        }
+
+        .window {
+            border: 1px solid white;
+            border-bottom: none;
+            height: 100%;
+            margin: 0px 5px
+        }
+
+        .paysage {
+            /* background-image: url('https://c.wallhere.com/photos/d7/79/viadukt_viaduct_langwies_graub_nden_schweiz_sterne_stars_milchstrasse-563774.jpg!d'); */
+            background-image: url('http://en.es-static.us/upl/2017/01/venus-mars-moon-1-31-2017-Gilbert-Vancell-Nature-Photography-e1485895801372.jpg');
+            background-image: url('https://c1.staticflickr.com/7/6132/5956290718_396c5b661b_b.jpg');
+            background-position: top center;
+            width: 94%;
+            height: 98%;
+            background-size: 300%;
+            margin: 3%;
+            background-position: center;
+        }
+
+        .border-bottom {
+            border: 1px solid white;
+            height: 8px;
+            border-top: none;
+            position: relative;
+        }
+
+        .border-bottom .left {
+            width: 5px;
+            height: 100%;
+            float: left;
+            border-top: 1px solid white;
+        }
+
+        .border-bottom .right {
+            width: 5px;
+            height: 100%;
+            border-top: 1px solid white;
+            float: right;
+        }
+
+        .position {
+            color: black;
+            text-align: center;
+        }
+
+        .actions {
+            margin-top: 15px;
+            font-size: 2.5em;
+            display: flex;
+            justify-content: space-evenly;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="infos">
+        <div>
+            <span id="temperature">...</span>
+            <i class="fa fa-thermometer-half" aria-hidden="true"></i>
+        </div>
+        <div>
+            <span id="luminosity">...</span>
+            <i class="fa fa-sun-o" aria-hidden="true"></i>
+        </div>
+    </div>
+
+    <div id="contenair">
+        <div id="blind" class="blind">
+            <div id="controller" class="controller">
+                <i class="fa fa-angle-up" aria-hidden="true"></i>
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="window">
+            <div class="paysage"></div>
+        </div>
+        <div class="border-bottom">
+            <div class="left"></div>
+            <div class="right"></div>
+        </div>
+    </div>
+
+    <div class="position">
+        <span id="percent">..</span>
+        <i class="fa fa-percent" aria-hidden="true"></i>
+    </div>
+
+    <div class="actions">
+        <i onclick="send_action('up')" class="fa fa-chevron-circle-up" aria-hidden="true"></i>
+        <i onclick="send_action('stop')" class="fa fa-stop-circle" aria-hidden="true"></i>
+        <i onclick="send_action('down')" class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+    </div>
+
+    <script>
+
+        var base_url = ''; //'http://192.168.0.26';
+        var lock = false;
+        var final_height = 0;
+
+        window.onload = addListeners;
+
+        loop_data();
+        setInterval(loop_data, 4000);
+
+        function loop_data() {
+
+            fetch(base_url + '/position')
+                .then(resp => resp.json())
+                .then(res => {
+                    console.log(res);
+                    if (!lock) {
+                        document.getElementById('percent').innerText = res;
+                        document.getElementById('blind').style.height = (res * 3) + 'px';
+                    }
+                });
+
+            fetch(base_url + '/temperature')
+                .then(resp => resp.json())
+                .then(res => {
+                    console.log(res);
+                    document.getElementById('temperature').innerText = res;
+                });
+
+            fetch(base_url + '/luminosity')
+                .then(resp => resp.json())
+                .then(res => {
+                    console.log(res);
+                    document.getElementById('luminosity').innerText = res;
+                });
+        }
+
+        function move_to() {
+            lock = false;
+            fetch(base_url + '/move?to=' + final_height)
+                .then(resp => resp.json())
+                .then(res => {
+                    console.log(res);
+                });
+        }
+
+        function send_action(action) {
+            fetch(base_url + '/action?value=' + action)
+                .then(resp => resp.json())
+                .then(res => {
+                    console.log(res);
+                });
+        }
+
+        document.ontouchmove = function (event) {
+            event.preventDefault();
+        }
+
+        function addListeners() {
+            document.getElementById('controller').addEventListener('mousedown', mouseDown, false);
+            document.getElementById('controller').addEventListener('touchstart', touchDown, false);
+            document.getElementById('controller').addEventListener('mouseup', mouseUp, false);
+            document.getElementById('controller').addEventListener('touchend', touchUp, false);
+        }
+
+        function mouseUp() {
+            console.log('mouseUp');
+            move_to();
+            window.removeEventListener('mousemove', divMove, true);
+        }
+
+        function mouseDown(e) {
+            console.log('mouseDown');
+            lock = true;
+            window.addEventListener('mousemove', divMove, true);
+        }
+
+        function touchUp() {
+            console.log('mouseUp');
+            move_to();
+            window.removeEventListener('touchmove', divMove, true);
+        }
+
+        function touchDown(e) {
+            console.log('mouseDown');
+            lock = true;
+            window.addEventListener('touchmove', divMove, true);
+        }
+
+        function divMove(e) {
+            console.log(e)
+            const div = document.getElementById('blind');
+            let height = 0;
+            if (e.clientY) {
+                height = e.clientY - 100;
+            } else if (e.touches[0]) {
+                height = e.touches[0].clientY - 100;
+            }
+            if (height >= 0 && height <= 300) {
+                div.style.height = height + 'px';
+                console.log(height);
+                final_height = Math.round(height / 3);
+                document.getElementById('percent').innerText = Math.round(height / 3);
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
