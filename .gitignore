@@ -1,0 +1,5 @@
+# global
+.DS_store
+
+# software
+software/config.h
