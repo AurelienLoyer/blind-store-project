@@ -1,27 +1,28 @@
 #include <ESP8266WiFi.h>
 #include "FS.h"
 #include "DHT.h"
+#include "config.h"
 
-#define DHTPIN D3     // what digital pin the DHT22 is conected to
-#define DHTTYPE DHT22   // there are multiple kinds of DHT sensors
+#define DHTPIN 3     // what digital pin the DHT22 is conected to
+#define DHTTYPE DHT22 // there are multiple kinds of DHT sensors
 
 DHT dht(DHTPIN, DHTTYPE);
 
-#define SENSOR_PIN A0    // select the input pin for the potentiometer
-#define MIN_VALUE 25
-#define MAX_VALUE 800
+#define SENSOR_PIN A0 // select the input pin for the potentiometer
+#define MIN_VALUE 25 // 
+#define MAX_VALUE 800 //
 
-const char* ssid = "iPhone de Aurelien";
-const char* password = "aurelwifiaurelwifi";
+const char* ssid = CONFIG_SSID;
+const char* password = CONFIG_PASSWORD;
 
-int Pin1 = D1; // GPIO5
-int Pin2 = D2; // GPIO4
+int Pin1 = 1; // GPIO5
+int Pin2 = 2; // GPIO4
 
 const char* state = "STOP";
 
 String html_home; // 
 int blind_position = 0; // 
-int sensorValue = 0; 
+int sensorValue = 0; //
 int timeToUp = 10; // 10 secondes pour monter complétement le volet
 int timeToDown = 6; // 6 secondes pour descendre complétement le volet 
 
