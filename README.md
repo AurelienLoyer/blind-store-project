@@ -6,8 +6,7 @@ When you are in your desk 👨🏻‍💻, in a meeting and the sun appears behi
 
 ## Prototype 
 
-[![Watch the video](https://media.giphy.com/media/fLLlRNTH6kdDdQhFSM/giphy.gif)](https://youtu.be/b_dLkQOu_uQ)
-
+[![Watch the video](https://user-images.githubusercontent.com/3717296/95396180-9d619480-0900-11eb-9d0f-881aede12fee.gif)](https://youtu.be/b_dLkQOu_uQ)
 
 ## Interface
 
