@@ -19,4 +19,8 @@
 
 I've test a lot of motor, stepper motor, ... to find the good one !
 
+Some articles to talk about this subject
+- https://getpocket.com/read/1919042218
+- ...
+
 ![](https://media0.giphy.com/media/LqW9dLVjQm3cs/200.gif?cid=5a38a5a2amqwkv6rgz3hngwcinnk51svolpdldzw9nkrfe0y&rid=200.gif)
