@@ -6,7 +6,7 @@ LONGUEUR = 100;
 
 translate ([24,27,32]) {
     difference() {
-        rotate([90]) import("Bead_Chain_Pulley_-_More_Versatile.stl"); 
+        rotate([90]) import("../stl/pulley_v2.stl"); 
         translate ([0,0,-10]) {
              difference() {
                 color("green");
