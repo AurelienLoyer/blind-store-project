@@ -9,10 +9,28 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="controls">
-      <button id="control-up">Up ☝️</button>
-      <button id="control-down">Down 👇</button>
-      <button id="control-stop">Stop 🛑</button>
+    <div id="controls">
+      <header>
+        <button id="openSettingsBtn">⚙️</button>
+      </header>
+
+      <button id="control-up" class="control">Up ☝️</button>
+      <br />
+      <button id="control-down" class="control">Down 👇</button>
+      <br />
+      <button id="control-stop" class="control">Stop 🛑</button>
+    </div>
+
+    <div id="settings">
+      <header>
+        <button id="closeSettingsBtn">🚪</button>
+      </header>
+
+      <label for="inputIPBtn">
+        IP address
+        <br />
+        <input type="text" name="" id="inputIPBtn" />
+      </label>
     </div>
   </body>
 </html>
