@@ -2,6 +2,33 @@ body {
 }
 
 button {
+  cursor: pointer;
+}
+
+header {
+  width: 100%;
+  text-align: right;
+}
+
+header button {
+  border: none;
+  background-color: transparent;
+}
+
+#controls {
+  display: block;
+}
+
+.control {
   padding: 10px 20px;
+  margin: 10px 20px;
+}
+
+#settings {
+  display: none;
+}
+
+#settings label {
+  display: block;
   margin: 10px 20px;
 }

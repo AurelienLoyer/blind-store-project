@@ -4,6 +4,8 @@ chrome.runtime.onConnect.addListener(function (externalPort) {
   externalPort.onDisconnect.addListener(function () {
     var ignoreError = chrome.runtime.lastError;
     console.log("onDisconnect triggered");
-    fetch("http://192.168.1.27/action?value=stop").catch(console.error);
+
+    // @todo use value from localstorage here!
+    fetch("http://192.168.1.49/action?value=stop").catch(console.error);
   });
 });
